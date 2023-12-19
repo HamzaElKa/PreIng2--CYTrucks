@@ -13,7 +13,8 @@ then
     echo "$1 n'est pas un fichier"
     exit 2
 fi
-if [ "$#" -eq 0 ]; then 
+if [ "$#" -eq 0 ]
+then 
     echo "Veuillez spécifier au moins un traitemnt."
     exit 1
 fi
@@ -27,27 +28,33 @@ for arg in "$@"; do
         break 
     fi
 done
-if [ "$option_h" -eq 1 ]; then
+if [ "$option_h" -eq 1 ]
+then
     exit 0
 fi
-#cut -d';' -f5 temp.csv  |  sort -n -r  | head -n10  #traitement L
 
 for arg in "$@"; do
    case "$arg" in
    "-d1") 
-   echo "Traitement d1 : ";;
+   echo "Traitement d1 :
+    ";;
    "-d2")
-   echo "Traitement d2 : " ;;
+   echo "Traitement d2 : 
+   " ;;
    "-l")
-   echo "Traitement l : " ;;
+   echo "Traitement l : " 
+    sort -n -t';' -k1 data.csv | cut -d';' -f1,5,6 >tmp.csv
+    awk -F';' 'NR>1 { distances[$1] += $2 } END { for (id in distances) print id,distances[id] }' tmp.csv | sort -n -r -t' ' -k2 | head -n10 >resultats.txt  
+    gnuplot testl.gnu;;
    "-t") 
-   echo "Traitement t : ";;
+   echo "Traitement t : 
+   ";;
    "-s") 
-   echo "Traitement s : ";;
+   echo "Traitement s : 
+   ";;
     *)
     echo "Option non reconnue : $arg";;
    *) 
    echo "$arg existe pas ";;
    esac
 done
-
