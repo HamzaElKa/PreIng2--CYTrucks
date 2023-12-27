@@ -36,8 +36,11 @@ fi
 for arg in "$@"; do
    case "$arg" in
    "-d1") 
-   echo "Traitement d1 :
-    ";;
+   echo "Traitement d1 : "
+   sort -n -t';' -k1 data.csv | cut -d';' -f1,5,6 >tmp.csv 
+   awk -F ';' '{count[$3" - "$1]++} END {for (i in count) print count[i],i}' tmp.csv | sort -nr | head -n10 >resultatsd1.txt
+   ##gnuplot testd1.gnu
+;;
    "-d2")
    echo "Traitement d2 : 
    " ;;
@@ -45,7 +48,8 @@ for arg in "$@"; do
    echo "Traitement l : " 
     sort -n -t';' -k1 data.csv | cut -d';' -f1,5,6 >tmp.csv
     awk -F';' 'NR>1 { distances[$1] += $2 } END { for (id in distances) print id,distances[id] }' tmp.csv | sort -n -r -t' ' -k2 | head -n10 >resultats.txt  
-    gnuplot testl.gnu;;
+    ##gnuplot testl.gnu
+    ;;
    "-t") 
    echo "Traitement t : 
    ";;
