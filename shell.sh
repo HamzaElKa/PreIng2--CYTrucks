@@ -42,9 +42,11 @@ for arg in "$@"; do
    ##gnuplot testd1.gnu
 ;;
    "-d2")
-   echo "Traitement d2 : 
-   " ;;
+   echo "Traitement d2 : "
+   awk -F';' 'NR>1 {distance[$6] += $5} END {for (driver in distance) if (distance[driver] > 0) print distance[driver] "," driver}' tmp.csv | sort -nr | head -10
+    ;;
    "-l")
+   
    echo "Traitement l : " 
     sort -n -t';' -k1 data.csv | cut -d';' -f1,5,6 >tmp.csv
     awk -F';' 'NR>1 { distances[$1] += $2 } END { for (id in distances) print id,distances[id] }' tmp.csv | sort -n -r -t' ' -k2 | head -n10 >resultats.txt  
